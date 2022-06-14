@@ -1,13 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <ctype.h>
 #include <time.h>
-#include <string.h>
 #define MAX_LEN 128
-
 #define maxVal 9999
-#define MAX_LEN 128
 
 int V = 16;
 char date[100];
@@ -103,7 +99,7 @@ void dijkstra(int graph[V][V], int start, int target, int speed)
 
     }
     printf("Route: ");
-    for (int x = V + 1 - i; x >= 0; x--)
+    for (int x = i; x >= 0; x--)
     {
         if (x == 0)
         {
@@ -112,7 +108,7 @@ void dijkstra(int graph[V][V], int start, int target, int speed)
         else
             printf(" (%d) ->", route[x]);
     }
-    printf("Distance from %d to %d: %d\n", start, target, jarak[target]);
+    printf("Distance from %d to %d: %dkm\n", start, target, jarak[target]);
 
     if (hour < 10 && min < 10)
     {
@@ -131,17 +127,27 @@ void dijkstra(int graph[V][V], int start, int target, int speed)
         printf("Starting at %d:%d, ", hour, min);
     }
 
+    // Waktu perjalanan (Menit)
     int travelTime = jarak[target] * 60 / speed;
+
+    // Menit sekarang ditambah menit waktu perjalanan
     newMin = min + travelTime;
+
+    // Konstanta untuk mengecek apakah menit melebihi atau sama dengan 60 menit
     int constanta = newMin / 60;
 
+    // Jika konstanta melebihi 0 maka menit melebihi atau sama dengan 60
     if (constanta > 0)
     {
-        hour += constanta;
-        if (hour > 24)
+        // Menambahkan jam sekarang dengan jam baru
+        newHour = hour + constanta;
+
+        // Jika jam melebihi 24 maka akan di ubah ke waktu pagi
+        if (newHour > 24)
         {
-            newHour = hour % 24;
+            newHour = newHour % 24;
         }
+        // Sisa menit
         newMin %= 60;
     }
     else
@@ -791,9 +797,17 @@ int main()
             printf("Table Representation: \n");
             for (int i = 0; i < V; i++)
             {
-                printf("Node %d: ", i);
+                if(i <= 9)
+                {
+                    printf("Node %d : ", i);
+                }
+                else {
+                    printf("Node %d: ", i);
+                }
+
                 for (int x = 0; x < V; x++)
                 {
+
                     if (x == V - 1)
                     {
                         printf(" %3d |\n", graph1[i][x]);
@@ -836,6 +850,51 @@ int main()
             printf("            |   /        3   6     7    3       8   |          3               \n");
             printf("            |  /        /     \\   /      \\       \\  |          |             \n");
             printf("            (4) --3-- (3)      (5)      (10) --7--(9)  --3--  (12)              \n");
+
+            printf("Table Representation: \n");
+            for (int i = 0; i < V; i++)
+            {
+                if(i <= 9)
+                {
+                    printf("Node %d : ", i);
+                }
+                else {
+                    printf("Node %d: ", i);
+                }
+
+                for (int x = 0; x < V; x++)
+                {
+
+                    if (x == V - 1)
+                    {
+                        printf(" %3d |\n", graph2[i][x]);
+                    }
+                    else
+                    {
+                        printf(" %3d |", graph2[i][x]);
+                    }
+                }
+            }
+            printf("______________________________________\n");
+            int src = -1;
+            while (src < 0 || src >= V)
+            {
+                printf("Choose a starting point: ");
+                scanf("%d", &src);
+            }
+            int tgt = -1;
+            while (tgt < 0 || src >= V || tgt == src)
+            {
+                printf("Choose an end point: ");
+                scanf("%d", &tgt);
+            }
+
+            int speed;
+            printf("How fast will you be traveling: ");
+            scanf("%d", &speed);
+
+            dijkstra(graph2, src, tgt, speed);
+
         }
     }
 }
