@@ -1,9 +1,7 @@
 # depslib dependency file v1.0
-1655216686 source:c:\users\msi\downloads\simplemaps-neville\main.c
+1655216824 source:c:\users\msi\downloads\simplemaps-neville\main.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
-	<ctype.h>
 	<time.h>
-	<string.h>
 

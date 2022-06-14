@@ -136,7 +136,7 @@ void dijkstra(int graph[V][V], int start, int target, int speed)
         newHour = hour + constanta;
         if (newHour > 24)
         {
-            newHour = hour % 24;
+            newHour = newHour % 24;
         }
         newMin %= 60;
     }
